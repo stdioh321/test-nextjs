@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: app
+    build:
+      context: ../
+      dockerfile: ./infra/Dockerfile.dev
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - $PWD:/app
+    depends_on:
+      - mongo01
+  mongo01:
+      container_name: mongo01
+      image: mongo:7
+      restart: unless-stopped
+      ports:
+        - 27017:27017
