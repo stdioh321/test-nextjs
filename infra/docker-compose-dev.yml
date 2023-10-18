@@ -7,7 +7,7 @@ services:
       dockerfile: ./infra/Dockerfile.dev
       context: ../
     ports:
-      - 3001:3000
+      - 3000:3000
     volumes:
       - $PWD:/app
     networks:
