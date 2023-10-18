@@ -1,6 +1,5 @@
 # test-nextjs
 Testing Next JS
 
-
 # References
-* Tutorial: https://www.youtube.com/watch?v=NgayZAuTgwM
+* wbs-test-nextjs: https://www.youtube.com/watch?v=NgayZAuTgwM
