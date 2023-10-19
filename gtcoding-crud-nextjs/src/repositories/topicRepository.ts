@@ -1,6 +1,7 @@
 import { Model } from 'mongoose';
 import TopicModel, { ITopic, ITopicDocument } from '@/models/topic';
 import connectMongoDB from '@/db/mongodb';
+import { TopicGet, TopicPatch } from '@/dto/topic';
 
 connectMongoDB()
 
@@ -11,28 +12,32 @@ class TopicRepository {
     this.model = model;
   }
 
-  async create(topic: ITopic): Promise<ITopicDocument> {
-    return this.model.create(topic);
+  async create(topic: ITopicDocument): Promise<TopicGet> {
+    return new TopicGet(await this.model.create(topic));
   }
 
-  async findById(id: string): Promise<ITopic | null | undefined> {
-    return (await this.model.findById(id))?.toJSON();
+  async findById(id: string): Promise<TopicGet | null> {
+    const topic = await this.model.findById(id);
+    return topic ? new TopicGet(topic) : null;
   }
 
-  async update(id: string, topic: Partial<ITopic>): Promise<ITopicDocument | null> {
-    return this.model.findByIdAndUpdate(id, topic, { new: true }).exec();
+  async update(id: string, topic: TopicPatch): Promise<TopicGet | null> {
+    const topicUpdated = await this.model.findByIdAndUpdate(id, topic, { new: true }).exec()
+    return topicUpdated ? new TopicGet(topicUpdated) : null
   }
 
-  async patch(id: string, topic: Partial<ITopic>): Promise<ITopicDocument | null> {
-    return this.model.findByIdAndUpdate(id, topic, { new: true }).lean()
+  async patch(id: string, topic: TopicPatch): Promise<TopicGet | null> {
+    const topicUpdated = await this.model.findByIdAndUpdate(id, topic, { new: true }).exec()
+    return topicUpdated ? new TopicGet(topicUpdated) : null
   }
 
-  async delete(id: string): Promise<ITopicDocument | null> {
-    return this.model.findByIdAndDelete(id).lean();
+  async delete(id: string): Promise<TopicGet | null> {
+    const deletedTopic = await this.model.findByIdAndDelete(id).lean();
+    return deletedTopic ? new TopicGet(deletedTopic) : null;
   }
 
-  async findAll(): Promise<ITopicDocument[]> {
-    return this.model.find().exec();
+  async findAll(): Promise<TopicGet[]> {
+    return (await this.model.find().exec()).map(it => new TopicGet(it));
   }
 }
 const topicRepository = new TopicRepository(TopicModel);

@@ -13,7 +13,7 @@ export default function page() {
   async function handleFormSubmit(e: FormEvent) {
     e.preventDefault()
     if (!(formData.title && formData.description)) {
-      alert('Fields are required')
+      alert('Fields "title" and "description" are required')
       return
     }
     try {
@@ -25,7 +25,6 @@ export default function page() {
         body: JSON.stringify(formData)
       })
       if (!res.ok) throw Error('Something went wrong ')
-      console.log(await res.json())
       routerNavigation.push('/')
     } catch (error) {
 

@@ -1,10 +1,11 @@
+import { TopicGet } from '@/dto/topic'
 import { ITopic, ITopicDocument } from '@/models/topic'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { HiOutlineTrash, HiPencilAlt } from 'react-icons/hi'
 
-export default function TopicItem(topic: any) {
+export default function TopicItem(topic: TopicGet) {
   const routerNavigation = useRouter()
   async function handleDeleteTopic(id: string) {
     try {
@@ -15,7 +16,6 @@ export default function TopicItem(topic: any) {
       routerNavigation.refresh()
     } catch (error) {
       console.log({ error });
-
     }
   }
 
@@ -25,13 +25,13 @@ export default function TopicItem(topic: any) {
         <div>
           <h2 className="font-bold text-2xl line-clamp-1">{topic.title}</h2>
           <div>{topic.description}</div>
-          <small>{topic._id}</small>
+          <small>{topic.id}</small>
         </div>
         <div className="md:flex md:gap-2">
-          <button className="text-red-400" onClick={(e) => handleDeleteTopic(topic._id)}>
+          <button className="text-red-400" onClick={(e) => handleDeleteTopic(topic.id)}>
             <HiOutlineTrash size={24} />
           </button>
-          <Link href={`/editTopic/${topic._id}`} para>
+          <Link href={`/editTopic/${topic.id}`}>
             <HiPencilAlt size={24} />
           </Link>
         </div>

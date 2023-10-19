@@ -1,33 +1,36 @@
-import Link from 'next/link'
-import React from 'react'
-import { HiOutlineTrash, HiPencilAlt } from 'react-icons/hi'
+import React, { useEffect, useState } from 'react'
 import TopicItem from './TopicItem'
+import { TopicGet } from '@/dto/topic'
+import { envs } from '@/configs/env'
 
 async function getTopics() {
-  let topics: any[] = []
-  try {
-    topics = await (await fetch('http://localhost:3000/api/topics')).json()
-
-  } catch (error) {
-    console.log(getTopics);
-  }
+  const topics: TopicGet[] = await (await fetch('/api/topics')).json()
   return topics
 }
-export default async function TopicList() {
-  const topics = await getTopics()
+
+export default function TopicList() {
+  const [topics, setTopics] = useState<TopicGet[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    getTopics()
+      .then(res => setTopics(res))
+      .finally(() => setLoading(false))
+  }, [])
+
 
   return (
     <>
       <div><h1 className='text-3xl'>Todo list</h1></div>
       <div>
-        {generateListTopics(topics)}
+        {loading ? <div className='text-2xl text-green-500'>Loading....</div> : generateListTopics(topics)}
       </div>
     </>
   )
 
-  function generateListTopics(topics: any[]): React.ReactNode {
-    return topics.length > 0 ?
-      topics.map((it) => (<TopicItem key={it._id} {...it} />))
-      : <div className='font-bold text-1xl text-red-300'>Empty</div>
+  function generateListTopics(topics: TopicGet[]): React.ReactNode {
+    return topics.length < 1 ? 
+    <div className='text-2xl text-blue-500'>Empty</div>
+    : topics.map((it) => (<TopicItem key={it.id} {...it} />))
   }
 }

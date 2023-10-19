@@ -4,8 +4,6 @@ import React, { FormEvent, useEffect, useState } from 'react'
 
 
 export default function page({ params }) {
-  console.log({ params });
-
   const { id } = params
 
   const router = useRouter()
@@ -36,7 +34,6 @@ export default function page({ params }) {
         body: JSON.stringify(formData)
       })
       if (!res.ok) throw Error('Something went wrong ')
-      console.log(await res.json())
       router.push('/')
     } catch (error) {
       console.log({ error });
