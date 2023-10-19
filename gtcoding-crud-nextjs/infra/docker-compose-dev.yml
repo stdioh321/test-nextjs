@@ -10,6 +10,8 @@ services:
       - 3000:3000
     restart: unless-stopped
     working_dir: /app
+    environment:
+      - NODE_ENV=dev
     volumes:
       - $PWD:/app
     depends_on:
