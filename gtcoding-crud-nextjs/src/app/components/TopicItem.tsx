@@ -1,11 +1,12 @@
+'use client'
+
 import { TopicGet } from '@/dto/topic'
-import { ITopic, ITopicDocument } from '@/models/topic'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { HiOutlineTrash, HiPencilAlt } from 'react-icons/hi'
 
-export default function TopicItem(topic: TopicGet) {
+export default function TopicItem(topic: TopicGet, onDeleteTopic:()=>void) {
   const routerNavigation = useRouter()
   async function handleDeleteTopic(id: string) {
     try {
@@ -13,7 +14,8 @@ export default function TopicItem(topic: TopicGet) {
         method: 'DELETE',
       })
       if (!res.ok) throw Error('Something went wrong')
-      routerNavigation.refresh()
+      // routerNavigation.refresh()
+      onDeleteTopic()
     } catch (error) {
       console.log({ error });
     }

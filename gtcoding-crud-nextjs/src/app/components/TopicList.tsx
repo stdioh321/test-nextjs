@@ -1,7 +1,9 @@
+'use client'
+
 import React, { useEffect, useState } from 'react'
 import TopicItem from './TopicItem'
 import { TopicGet } from '@/dto/topic'
-import { envs } from '@/configs/env'
+import { useRouter } from 'next/navigation'
 
 async function getTopics() {
   const topics: TopicGet[] = await (await fetch('/api/topics')).json()
@@ -11,6 +13,7 @@ async function getTopics() {
 export default function TopicList() {
   const [topics, setTopics] = useState<TopicGet[]>([])
   const [loading, setLoading] = useState<boolean>(true)
+  const routerNavigation = useRouter()
 
   useEffect(() => {
     getTopics()
@@ -29,8 +32,8 @@ export default function TopicList() {
   )
 
   function generateListTopics(topics: TopicGet[]): React.ReactNode {
-    return topics.length < 1 ? 
-    <div className='text-2xl text-blue-500'>Empty</div>
-    : topics.map((it) => (<TopicItem key={it.id} {...it} />))
+    return topics.length < 1 ?
+      <div className='text-2xl text-blue-500'>Empty</div>
+      : topics.map((it) => (<TopicItem key={it.id} {...it} onDeleteTopic={() => { routerNavigation.refresh() }} />))
   }
 }
