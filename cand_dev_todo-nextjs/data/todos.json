@@ -1,15 +1,11 @@
 {
   "tasks": [
     {
-      "id": 1,
-      "text": "Some text 01"
+      "text": "Mario",
+      "id": 2
     },
     {
-      "id": 2,
-      "text": "Some text 02"
-    },
-    {
-      "text": "abc",
+      "text": "Toad",
       "id": 3
     }
   ]
