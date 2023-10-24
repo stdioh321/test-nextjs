@@ -1,0 +1,18 @@
+{
+  "tickets": [
+    {
+      "title": "Title01",
+      "body": "Body 01\n",
+      "user_email": "temp@mail.com",
+      "priority": "low",
+      "id": 1
+    },
+    {
+      "title": "Title 02",
+      "body": "Body02",
+      "user_email": "temp@mail.com",
+      "priority": "high",
+      "id": 2
+    }
+  ]
+}
